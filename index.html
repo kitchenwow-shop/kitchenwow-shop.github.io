@@ -165,7 +165,6 @@ const PRODUCTS = [
   },
 ];
 
-const IG_DM = 'https://www.instagram.com/kitchenwow.shop/';
 const list = document.getElementById('list');
 const empty = document.getElementById('empty');
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -182,10 +181,6 @@ function render(items){
         <h2>${esc(p.name)}</h2>
         <div class="actions">
           <a class="btn" href="${esc(p.link)}" target="_blank" rel="sponsored nofollow noopener">Shop</a>
-          <a class="chat" href="${IG_DM}" target="_blank" rel="noopener" aria-label="Ask about #${p.num} on Instagram" title="Ask about this product"
-             onclick="try{navigator.clipboard.writeText('Hi! I have a question about product #${p.num}: ${esc(p.name).replace(/'/g,'')}')}catch(e){}">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.4 2 2 6.1 2 11.2c0 2.7 1.2 5.1 3.2 6.8V22l3.3-1.8c1.1.3 2.3.5 3.5.5 5.6 0 10-4.1 10-9.2S17.6 2 12 2zm1 12.4-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 4.9-2.7-5.4 5.8z"/></svg>
-          </a>
         </div>
       </div>
     </article>`).join('');
