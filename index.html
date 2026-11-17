@@ -21,7 +21,7 @@
     background:var(--yellow); color:var(--ink); min-height:100vh;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:520px;margin:0 auto;padding:28px 18px 40px}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 12px 40px}
   header{text-align:center;margin-bottom:22px}
   .logo{width:112px;height:112px;border-radius:50%;border:5px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.12);display:block;margin:0 auto 12px}
   h1{font-size:30px;font-weight:800;letter-spacing:.3px}
@@ -37,23 +37,26 @@
   .search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted)}
   .hint{font-size:13px;text-align:center;color:#5a4d14;margin:4px 0 16px}
 
-  .grid{display:grid;gap:16px}
-  .card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.08);display:grid;grid-template-columns:128px 1fr;align-items:stretch;transition:transform .15s}
-  .card:active{transform:scale(.99)}
-  .thumb{position:relative;background:var(--yellow-soft)}
-  .thumb img{width:100%;height:100%;object-fit:cover;display:block;aspect-ratio:1/1}
-  .num{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-weight:800;font-size:14px;padding:4px 10px;border-radius:999px}
-  .new{position:absolute;bottom:8px;left:8px;background:var(--ink);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;letter-spacing:.5px}
-  .info{padding:14px 14px 14px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
-  .info h2{font-size:17px;line-height:1.25;font-weight:700}
-  .info p{font-size:13px;color:var(--muted);line-height:1.4;margin-top:4px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:11px 14px;border-radius:14px;box-shadow:0 4px 0 #b52a35}
-  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 #b52a35}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.08);display:flex;flex-direction:column;transition:transform .15s}
+  .card:active{transform:scale(.98)}
+  .thumb{position:relative;background:#fff}
+  .thumb img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+  .num{position:absolute;top:6px;left:6px;background:var(--red);color:#fff;font-weight:800;font-size:11px;padding:2px 7px;border-radius:999px}
+  .new{position:absolute;top:6px;right:6px;background:var(--ink);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:999px;letter-spacing:.4px}
+  .info{padding:8px 8px 10px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .info h2{font-size:12px;line-height:1.25;font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:30px}
+  .actions{display:flex;gap:6px;margin-top:auto}
+  .btn{flex:1;display:inline-flex;align-items:center;justify-content:center;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:12px;padding:8px 4px;border-radius:10px;box-shadow:0 3px 0 #b52a35;white-space:nowrap}
+  .btn:active{transform:translateY(2px);box-shadow:0 1px 0 #b52a35}
+  .chat{flex:0 0 34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(45deg,#f9a825,#e91e63,#8e24aa);color:#fff;text-decoration:none;box-shadow:0 3px 0 #6a1b6e}
+  .chat svg{width:18px;height:18px}
+  .chat:active{transform:translateY(2px);box-shadow:0 1px 0 #6a1b6e}
+  @media (min-width:600px){ .grid{gap:16px} .info h2{font-size:14px;min-height:36px} .btn{font-size:14px;padding:10px 6px} .chat{flex-basis:40px;height:40px} }
   .empty{display:none;text-align:center;background:#fff;border-radius:var(--radius);padding:22px;font-size:14px;color:var(--muted)}
 
   footer{margin-top:28px;text-align:center;font-size:12px;color:#5a4d14;line-height:1.6}
   footer strong{color:var(--ink)}
-  @media (min-width:480px){ .card{grid-template-columns:150px 1fr} }
 </style>
 </head>
 <body>
@@ -153,6 +156,7 @@ const PRODUCTS = [
   },
 ];
 
+const IG_DM = 'https://ig.me/m/kitchenwow.shop';
 const list = document.getElementById('list');
 const empty = document.getElementById('empty');
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -166,11 +170,14 @@ function render(items){
         ${p.isNew ? '<span class="new">NEW</span>' : ''}
       </div>
       <div class="info">
-        <div>
-          <h2>${esc(p.name)}</h2>
-          <p>${esc(p.desc)}</p>
+        <h2>${esc(p.name)}</h2>
+        <div class="actions">
+          <a class="btn" href="${esc(p.link)}" target="_blank" rel="sponsored nofollow noopener">Shop</a>
+          <a class="chat" href="${IG_DM}" target="_blank" rel="noopener" aria-label="Ask about #${p.num} on Instagram" title="Ask about this product"
+             onclick="try{navigator.clipboard.writeText('Hi! I have a question about product #${p.num}: ${esc(p.name).replace(/'/g,'')}')}catch(e){}">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.4 2 2 6.1 2 11.2c0 2.7 1.2 5.1 3.2 6.8V22l3.3-1.8c1.1.3 2.3.5 3.5.5 5.6 0 10-4.1 10-9.2S17.6 2 12 2zm1 12.4-2.6-2.7-5 2.7 5.5-5.8 2.6 2.7 4.9-2.7-5.4 5.8z"/></svg>
+          </a>
         </div>
-        <a class="btn" href="${esc(p.link)}" target="_blank" rel="sponsored nofollow noopener">Shop now →</a>
       </div>
     </article>`).join('');
   empty.style.display = items.length ? 'none' : 'block';
